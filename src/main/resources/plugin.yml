@@ -1,0 +1,8 @@
+name: Sacreplay
+version: ${project.version}
+main: net.pavela.sacreplay.Sacreplay
+api-version: 1.17
+authors: [ Daniel071 ]
+description: Replay hook for the SoaromaSAC anticheat
+website: pavela.net
+depend : [AdvancedReplay , SoaromaSAC]
