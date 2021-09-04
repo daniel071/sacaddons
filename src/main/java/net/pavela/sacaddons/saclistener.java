@@ -38,7 +38,9 @@ public class saclistener implements Listener {
         }
 
         if (config.getBoolean("replayhook")) {
-            DateFormat dateFormat = new SimpleDateFormat("HHmm");
+            // format: day in month , 24h time and minutes
+            // e.g. 150800 = 15th of the month at 8 AM
+            DateFormat dateFormat = new SimpleDateFormat("dHHmm");
             Date date = new Date();
 
             String currentDate = dateFormat.format(date);
