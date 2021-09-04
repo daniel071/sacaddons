@@ -8,6 +8,7 @@ import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,6 +35,10 @@ public class saclistener implements Listener {
                     msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(String.format("%.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ()))));
                     msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp @p %.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ())));
                     all.spigot().sendMessage(msg);
+
+                    if (config.getBoolean("flagsound.enabled")) {
+                        all.playSound(all.getLocation(), Sound.valueOf(config.getString("flagsound.sound")), (float) config.getDouble("flagsound.volume"), (float) config.getDouble("flagsound.pitch"));
+                    }
                 }
             }
         }

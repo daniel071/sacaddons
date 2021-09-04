@@ -1,3 +1,9 @@
 flagmsg: true
 replayhook: true
 bstats: true
+
+flagsound:
+  enabled: true
+  sound: "BLOCK_NOTE_BLOCK_PLING"
+  volume: 1
+  pitch: 1

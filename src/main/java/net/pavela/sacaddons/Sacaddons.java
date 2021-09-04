@@ -7,6 +7,7 @@ import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -19,8 +20,6 @@ import java.io.File;
 
 
 public final class Sacaddons extends JavaPlugin {
-    private Sacaddons Sacaddons;
-
     FileConfiguration config = this.getConfig();
 
     String msg1 = null;
@@ -47,6 +46,11 @@ public final class Sacaddons extends JavaPlugin {
         config.addDefault("flagmsg", true);
         config.addDefault("replayhook", true);
         config.addDefault("bstats", true);
+        config.addDefault("flagsound.enabled", true);
+        config.addDefault("flagsound.sound", "BLOCK_NOTE_BLOCK_PLING");
+        config.addDefault("flagsound.volume", 1);
+        config.addDefault("flagsound.pitch", 1);
+
         config.options().copyDefaults(true);
         saveConfig();
 
