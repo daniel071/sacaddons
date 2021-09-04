@@ -92,9 +92,7 @@ public final class Sacaddons extends JavaPlugin {
         @EventHandler
         public void onPlayerJoin(PlayerJoinEvent event) {
             Player p = event.getPlayer();
-            Bukkit.getConsoleSender().sendMessage(String.valueOf(apiEnabled));
             if(p.isOp()) {
-                Bukkit.getConsoleSender().sendMessage(String.valueOf(apiEnabled));
                 if (!apiEnabled) {
                     // referencing the variables did not work for some reason.. so I had to do this
                     p.sendMessage("");
