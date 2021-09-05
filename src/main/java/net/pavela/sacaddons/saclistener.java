@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import me.korbsti.soaromaac.api.SoaromaFlagEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.text.DateFormat;
@@ -53,6 +54,40 @@ public class saclistener implements Listener {
             String replayName = String.format("%s%s", Impostor, currentDate);
             ReplayAPI.getInstance().recordReplay(replayName, p, p);
         }
+    }
+
+    @EventHandler
+    public void PlayerCommand(PlayerCommandPreprocessEvent event) {
+        Player Crewmate = event.getPlayer();
+        Location CrewmateLocation = Crewmate.getLocation();
+
+        // spaces in report reason does get split up but currently we don't need that
+        String command = event.getMessage();
+        String[] commandArgs = command.split(" ");
+        Bukkit.getConsoleSender().sendMessage(commandArgs);
+
+        String ImpostorName = commandArgs[1];
+        Player Impostor = Bukkit.getServer().getPlayer(ImpostorName);
+        Location ImpostorLocation = Impostor.getLocation();
+
+        if (command.startsWith("/sacreport")) {
+            for (Player all : Bukkit.getServer().getOnlinePlayers()) {
+                if (all.isOp()) {
+                    TextComponent msg = new TextComponent(ChatColor.YELLOW + "[!] " + ChatColor.YELLOW + ChatColor.BOLD + Impostor.getDisplayName() + ChatColor.RESET + ChatColor.YELLOW + " was reported " + ChatColor.GRAY + " (click to teleport)");
+                    msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(String.format("%.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ()))));
+                    msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp @p %.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ())));
+                    all.spigot().sendMessage(msg);
+                }
+            }
+        }
+
+        DateFormat dateFormat = new SimpleDateFormat("dHHmm");
+        Date date = new Date();
+
+        String currentDate = dateFormat.format(date);
+        String replayName = String.format("Report-%s%s", Impostor, currentDate);
+        ReplayAPI.getInstance().recordReplay(replayName, Impostor, Impostor);
+
     }
 
 }
