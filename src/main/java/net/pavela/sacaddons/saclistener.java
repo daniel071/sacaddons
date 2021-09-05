@@ -16,13 +16,25 @@ import org.bukkit.event.Listener;
 import me.korbsti.soaromaac.api.SoaromaFlagEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.Plugin;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class saclistener implements Listener {
+    private Sacaddons instance;
     FileConfiguration config = Sacaddons.getPlugin(Sacaddons.class).getConfig();
+    ArrayList<String> currentRecordings = new ArrayList<String>();
+
+    public saclistener(Sacaddons plugin, Sacaddons instance){
+
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        this.instance = instance;
+
+    }
+
     @EventHandler
     public void onFlag(SoaromaFlagEvent event){
         Player p = event.getFlaggedPlayer();
@@ -49,10 +61,39 @@ public class saclistener implements Listener {
             // e.g. 150800 = 15th of the month at 8 AM
             DateFormat dateFormat = new SimpleDateFormat("dHHmm");
             Date date = new Date();
-
             String currentDate = dateFormat.format(date);
             String replayName = String.format("%s%s", Impostor, currentDate);
-            ReplayAPI.getInstance().recordReplay(replayName, p, p);
+
+            // Bukkit.getConsoleSender().sendMessage(":: Checking replay");
+            if (!currentRecordings.contains(replayName)) {
+                // Bukkit.getConsoleSender().sendMessage(":: Replay started: ", replayName);
+                currentRecordings.add(replayName);
+                ReplayAPI.getInstance().recordReplay(replayName, p, p);
+
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(instance, new Runnable() {
+                    public void run() {
+                        // Bukkit.getConsoleSender().sendMessage(":: Replay stopping ", replayName);
+                        ReplayAPI.getInstance().stopReplay(replayName, true);
+                        currentRecordings.remove(replayName);
+
+                        if (config.getBoolean("flagmsg")) {
+
+                            TextComponent msg = new TextComponent(ChatColor.AQUA + "" + ChatColor.BOLD + ":: " + ChatColor.RESET + "Replay " + ChatColor.ITALIC + replayName + ChatColor.RESET + " saved " + ChatColor.GRAY + "(click to watch)");
+                            String replayCommand = String.format("/replay play %s", replayName);
+
+                            for (Player all : Bukkit.getServer().getOnlinePlayers()) {
+                                if (all.isOp()) {
+
+                                    msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(replayCommand)));
+                                    msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, replayCommand));
+                                    all.spigot().sendMessage(msg);
+                                }
+                            }
+                        }
+
+                    }
+                }, config.getInt("replaylength") * 10L);
+            }
         }
     }
 

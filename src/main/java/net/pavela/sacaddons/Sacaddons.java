@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -47,6 +48,7 @@ public final class Sacaddons extends JavaPlugin {
         config.addDefault("replayhook", true);
         config.addDefault("reportmsg", true);
         config.addDefault("reportreplayhook", true);
+        config.addDefault("replaylength", 60);
         config.addDefault("bstats", true);
         config.addDefault("flagsound.enabled", true);
         config.addDefault("flagsound.sound", "BLOCK_NOTE_BLOCK_PLING");
@@ -56,7 +58,7 @@ public final class Sacaddons extends JavaPlugin {
         config.options().copyDefaults(true);
         saveConfig();
 
-        getServer().getPluginManager().registerEvents(new saclistener(), this);
+        new saclistener(this, this);
         getServer().getPluginManager().registerEvents(new playerlistener(), this);
 
         // check if API is disabled - plugin will not work if it's disabled
