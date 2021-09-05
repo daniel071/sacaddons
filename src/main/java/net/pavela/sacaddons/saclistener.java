@@ -63,7 +63,7 @@ public class saclistener implements Listener {
         String[] commandArgs = command.split(" ");
 
         if (commandArgs[0].equals("/sacreport")) {
-            boolean realImpostor = false;
+            String replayName = null;
 
             Player Crewmate = event.getPlayer();
             Location CrewmateLocation = Crewmate.getLocation();
@@ -75,23 +75,31 @@ public class saclistener implements Listener {
             if (Impostor != null) {
                 Location ImpostorLocation = Impostor.getLocation();
 
-                DateFormat dateFormat = new SimpleDateFormat("dHHmm");
-                Date date = new Date();
+                if (config.getBoolean("reportreplayhook")) {
+                    DateFormat dateFormat = new SimpleDateFormat("dHHmm");
+                    Date date = new Date();
 
-                String currentDate = dateFormat.format(date);
-                String replayName = String.format("Report-%s%s", Impostor.getDisplayName(), currentDate);
-                ReplayAPI.getInstance().recordReplay(replayName, Impostor, Impostor);
+                    String currentDate = dateFormat.format(date);
+                    replayName = String.format("Report-%s%s", Impostor.getDisplayName(), currentDate);
+                    ReplayAPI.getInstance().recordReplay(replayName, Impostor, Impostor);
+                }
 
-                for (Player all : Bukkit.getServer().getOnlinePlayers()) {
-                    if (all.isOp()) {
-                        TextComponent msg = new TextComponent(ChatColor.YELLOW + "[!] " + ChatColor.YELLOW + ChatColor.BOLD + Impostor.getDisplayName() + ChatColor.RESET + ChatColor.YELLOW + " was reported " + ChatColor.GRAY + " (click to teleport)");
-                        msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(String.format("%.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ()))));
-                        msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp @p %.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ())));
-                        // TODO: Show this message after report is saved and make message clickable to play report
-                        TextComponent msg2 = new TextComponent(ChatColor.YELLOW + "[!] " + ChatColor.YELLOW + "Replay will be saved as " + ChatColor.ITALIC + replayName);
+                if (config.getBoolean("reportmsg")) {
+                    for (Player all : Bukkit.getServer().getOnlinePlayers()) {
+                        if (all.isOp()) {
+                            TextComponent msg = new TextComponent(ChatColor.YELLOW + "[!] " + ChatColor.YELLOW + ChatColor.BOLD + Impostor.getDisplayName() + ChatColor.RESET + ChatColor.YELLOW + " was reported " + ChatColor.GRAY + " (click to teleport)");
+                            msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(String.format("%.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ()))));
+                            msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp @p %.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ())));
+                            all.spigot().sendMessage(msg);
 
-                        all.spigot().sendMessage(msg);
-                        all.spigot().sendMessage(msg2);
+                            // TODO: Show this message after report is saved and make message clickable to play report
+                            if (config.getBoolean("reportreplayhook")) {
+                                TextComponent msg2 = new TextComponent(ChatColor.YELLOW + "[!] " + ChatColor.YELLOW + "Replay will be saved as " + ChatColor.ITALIC + replayName);
+                                all.spigot().sendMessage(msg2);
+                            }
+
+
+                        }
                     }
                 }
 

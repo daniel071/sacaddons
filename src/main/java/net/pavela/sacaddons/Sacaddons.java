@@ -45,6 +45,8 @@ public final class Sacaddons extends JavaPlugin {
         saveDefaultConfig();
         config.addDefault("flagmsg", true);
         config.addDefault("replayhook", true);
+        config.addDefault("reportmsg", true);
+        config.addDefault("reportreplayhook", true);
         config.addDefault("bstats", true);
         config.addDefault("flagsound.enabled", true);
         config.addDefault("flagsound.sound", "BLOCK_NOTE_BLOCK_PLING");
