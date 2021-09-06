@@ -41,7 +41,13 @@ public class saclistener implements Listener {
         String Impostor = p.getDisplayName();
         Location ImpostorLocation = p.getLocation();
 
-        // instance.botThread.onFlag();
+        Runnable myrunnable = new Runnable() {
+            public void run() {
+                instance.irc.onFlag(Impostor);
+            }
+        };
+
+        new Thread(myrunnable).start();
 
         if (config.getBoolean("flagmsg")) {
             for (Player all : Bukkit.getServer().getOnlinePlayers()) {
@@ -115,6 +121,14 @@ public class saclistener implements Listener {
 
             String ImpostorName = commandArgs[1];
             Player Impostor = Bukkit.getServer().getPlayer(ImpostorName);
+
+            Runnable myrunnable = new Runnable() {
+                public void run() {
+                    instance.irc.onReport(ImpostorName);
+                }
+            };
+
+            new Thread(myrunnable).start();
 
             if (Impostor != null) {
                 Location ImpostorLocation = Impostor.getLocation();

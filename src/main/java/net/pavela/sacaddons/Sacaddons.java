@@ -72,7 +72,6 @@ public final class Sacaddons extends JavaPlugin {
         botThread = new Thread(irc);
         botThread.setName("irchook");
         botThread.start();
-        irc.onFlag();
         getServer().getPluginManager().registerEvents(new playerlistener(), this);
 
         // check if API is disabled - plugin will not work if it's disabled

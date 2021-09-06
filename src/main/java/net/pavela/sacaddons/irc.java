@@ -8,8 +8,8 @@ import org.pircbotx.hooks.types.GenericMessageEvent;
 
 public class irc extends ListenerAdapter implements Runnable {
     private Sacaddons instance;
-    static String sacaddonsversion = "0.0.0";
-    static String sacversion = "0.0.0";
+    public String sacaddonsversion = "0.0.0";
+    public String sacversion = "0.0.0";
     public static PircBotX bot;
 
 
@@ -21,11 +21,13 @@ public class irc extends ListenerAdapter implements Runnable {
         sacversion = instance.sacversion;
         sacaddonsversion = instance.sacaddonsversion;
 
-        if (instance.botThread.isAlive()) {
-            try {
-                main(true);
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (instance.botThread != null) {
+            if (instance.botThread.isAlive()) {
+                try {
+                    main(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -50,9 +52,14 @@ public class irc extends ListenerAdapter implements Runnable {
     }
 
     // @Override
-    public void onFlag() {
-        Bukkit.getConsoleSender().sendMessage("!! GAMER MOMENT - IT WORKED!");
-        //bot.sendIRC().message("#SoaromaSAC", "UH OH WARNING FLAG STINKY MOMENT");
+    public void onFlag(String ImpostorName) {
+        String msg = String.format("\u0002\u000304[!] MrRubberStruck\u000F\u000304 is sus :flushed:", ImpostorName);
+        bot.sendIRC().message("#SoaromaSAC", msg);
+    }
+
+    public void onReport(String ImpostorName) {
+        String msg = String.format("\u0002\u000308[!] %s \u000Fwas reported", ImpostorName);
+        bot.sendIRC().message("#SoaromaSAC", msg);
     }
 
     public static void main(Boolean startBot) throws Exception {
@@ -76,6 +83,10 @@ public class irc extends ListenerAdapter implements Runnable {
 
     @Override
     public void run() {
-
+        try {
+            main(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
