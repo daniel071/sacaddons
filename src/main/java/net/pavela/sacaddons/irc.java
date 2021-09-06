@@ -3,13 +3,15 @@ package net.pavela.sacaddons;
 import org.bukkit.Bukkit;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
+import org.pircbotx.delay.Delay;
+import org.pircbotx.delay.StaticDelay;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 
 public class irc extends ListenerAdapter implements Runnable {
     private Sacaddons instance;
-    public String sacaddonsversion = "0.0.0";
-    public String sacversion = "0.0.0";
+    public static String sacaddonsversion = "0.0.0";
+    public static String sacversion = "0.0.0";
     public static PircBotX bot;
     public static org.bukkit.configuration.Configuration config;
 
@@ -51,11 +53,14 @@ public class irc extends ListenerAdapter implements Runnable {
             event.respond(String.format("\u0002sacaddons version:\u000F %s", sacaddonsversion));
             event.respond("----------------------------------------------");
         }
+        if (event.getMessage().startsWith("?help")) {
+            event.respond("Type ?info to show system info. Flags and reports will be sent to this channel.");
+        }
     }
 
     // @Override
     public void onFlag(String ImpostorName) {
-        String msg = String.format("\u0002\u000304[!] MrRubberStruck\u000F\u000304 is sus :flushed:", ImpostorName);
+        String msg = String.format("\u0002\u000304[!] MrRubberStruck\u000F\u000304 is sus", ImpostorName);
         bot.sendIRC().message(config.getString("irc.channel"), msg);
     }
 
@@ -71,6 +76,7 @@ public class irc extends ListenerAdapter implements Runnable {
                     .setName(config.getString("irc.username")) // Set the nick of the bot. CHANGE IN YOUR CODE
                     .addServer(config.getString("irc.server")) // Join the libera.chat network
                     .addAutoJoinChannel(config.getString("irc.channel")) // Join the test channel
+                    .setMessageDelay( new StaticDelay(0) )
                     .addListener(new irc()) // Add our listener that will be called on Events
                     .buildConfiguration();
 
