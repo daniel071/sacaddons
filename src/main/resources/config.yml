@@ -7,3 +7,12 @@ flagsound:
   sound: "BLOCK_NOTE_BLOCK_PLING"
   volume: 1
   pitch: 1
+
+irc:
+  enabled: false
+  username: "USERNAME_HERE"
+  server: "irc.libera.chat"
+  channel: "#SoaromaSAC"
+  nickserv:
+    enabled : false
+    password: "PASSWORD_HERE"

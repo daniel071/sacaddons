@@ -6,7 +6,7 @@
 
     <groupId>net.pavela.sacaddons</groupId>
     <artifactId>sacaddons</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.6</version>
     <packaging>jar</packaging>
 
     <name>Sacaddons</name>

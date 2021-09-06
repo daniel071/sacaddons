@@ -11,15 +11,17 @@ public class irc extends ListenerAdapter implements Runnable {
     public String sacaddonsversion = "0.0.0";
     public String sacversion = "0.0.0";
     public static PircBotX bot;
+    public static org.bukkit.configuration.Configuration config;
 
 
     public irc(Sacaddons instance, boolean startBot){
-        Bukkit.getConsoleSender().sendMessage(":: constructor loading");
+        // Bukkit.getConsoleSender().sendMessage(":: constructor loading");
 
         this.instance = instance;
 
         sacversion = instance.sacversion;
         sacaddonsversion = instance.sacaddonsversion;
+        config = instance.config;
 
         if (instance.botThread != null) {
             if (instance.botThread.isAlive()) {
@@ -34,13 +36,13 @@ public class irc extends ListenerAdapter implements Runnable {
     }
 
     public irc() {
-        Bukkit.getConsoleSender().sendMessage(":: constructor loading 2");
+        // Bukkit.getConsoleSender().sendMessage(":: constructor loading 2");
     }
 
 
     @Override
     public void onGenericMessage(GenericMessageEvent event) {
-        Bukkit.getConsoleSender().sendMessage(event.getMessage());
+        // Bukkit.getConsoleSender().sendMessage(event.getMessage());
         if (event.getMessage().startsWith("?info")) {
             event.respond("----------------------------------------------");
             event.respond("Minecraft server with SoaromaSAC and sacaddons");
@@ -54,21 +56,21 @@ public class irc extends ListenerAdapter implements Runnable {
     // @Override
     public void onFlag(String ImpostorName) {
         String msg = String.format("\u0002\u000304[!] MrRubberStruck\u000F\u000304 is sus :flushed:", ImpostorName);
-        bot.sendIRC().message("#SoaromaSAC", msg);
+        bot.sendIRC().message(config.getString("irc.channel"), msg);
     }
 
     public void onReport(String ImpostorName) {
         String msg = String.format("\u0002\u000308[!] %s \u000Fwas reported", ImpostorName);
-        bot.sendIRC().message("#SoaromaSAC", msg);
+        bot.sendIRC().message(config.getString("irc.channel"), msg);
     }
 
     public static void main(Boolean startBot) throws Exception {
         //Configure what we want our bot to do
         if (startBot) {
             Configuration configuration = new Configuration.Builder()
-                    .setName("cumbot") // Set the nick of the bot. CHANGE IN YOUR CODE
-                    .addServer("irc.libera.chat") // Join the libera.chat network
-                    .addAutoJoinChannel("#SoaromaSAC") // Join the test channel
+                    .setName(config.getString("irc.username")) // Set the nick of the bot. CHANGE IN YOUR CODE
+                    .addServer(config.getString("irc.server")) // Join the libera.chat network
+                    .addAutoJoinChannel(config.getString("irc.channel")) // Join the test channel
                     .addListener(new irc()) // Add our listener that will be called on Events
                     .buildConfiguration();
 
@@ -76,7 +78,10 @@ public class irc extends ListenerAdapter implements Runnable {
             bot = new PircBotX(configuration);
             //Connect to the server
             bot.startBot();
-            Bukkit.getConsoleSender().sendMessage(":: bot started !");
+
+            if (config.getBoolean("irc.nickserv.enabled")) {
+                bot.sendIRC().identify(config.getString("irc.nickserv.password"));
+            }
         }
 
     }

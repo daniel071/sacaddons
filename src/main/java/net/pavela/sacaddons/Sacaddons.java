@@ -63,16 +63,25 @@ public final class Sacaddons extends JavaPlugin {
         config.addDefault("flagsound.volume", 1);
         config.addDefault("flagsound.pitch", 1);
 
+        config.addDefault("irc.enabled", false);
+        config.addDefault("irc.username", "USERNAME_HERE");
+        config.addDefault("irc.server", "irc.libera.chat");
+        config.addDefault("irc.channel", "#SoaromaSAC");
+        config.addDefault("irc.nickserv.enabled", false);
+        config.addDefault("irc.nickserv.password", "PASSWORD_HERE");
+
         config.options().copyDefaults(true);
         saveConfig();
 
         new saclistener(this, this);
 
-        irc = new irc(this, false);
-        botThread = new Thread(irc);
-        botThread.setName("irchook");
-        botThread.start();
-        getServer().getPluginManager().registerEvents(new playerlistener(), this);
+        if (config.getBoolean("irc.enabled")) {
+            irc = new irc(this, false);
+            botThread = new Thread(irc);
+            botThread.setName("irchook");
+            botThread.start();
+            getServer().getPluginManager().registerEvents(new playerlistener(), this);
+        }
 
         // check if API is disabled - plugin will not work if it's disabled
         if (!sacConfig.getBoolean("other.enableAPI")) {
