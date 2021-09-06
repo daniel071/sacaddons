@@ -41,6 +41,8 @@ public class saclistener implements Listener {
         String Impostor = p.getDisplayName();
         Location ImpostorLocation = p.getLocation();
 
+        // instance.botThread.onFlag();
+
         if (config.getBoolean("flagmsg")) {
             for (Player all : Bukkit.getServer().getOnlinePlayers()) {
                 if (all.isOp()) {
@@ -57,6 +59,7 @@ public class saclistener implements Listener {
         }
 
         if (config.getBoolean("replayhook")) {
+
             // format: day in month , 24h time and minutes
             // e.g. 150800 = 15th of the month at 8 AM
             DateFormat dateFormat = new SimpleDateFormat("dHHmm");

@@ -15,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -22,6 +23,10 @@ import java.io.File;
 
 public final class Sacaddons extends JavaPlugin {
     FileConfiguration config = this.getConfig();
+    public irc irc;
+    public Thread botThread;
+    public String sacaddonsversion = "0.0.0";
+    public String sacversion = "0.0.0";
 
     String msg1 = null;
     String msg2 = null;
@@ -35,6 +40,9 @@ public final class Sacaddons extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+
+        sacaddonsversion = this.getDescription().getVersion();
+        sacversion = Bukkit.getServer().getPluginManager().getPlugin("SoaromaSAC").getDescription().getVersion();
 
         String msg1 = "[!] " + ChatColor.YELLOW + "enableAPI for SoaromaSAC is disabled!";
         String msg2 = "[!] " + ChatColor.YELLOW + "sacaddons " + ChatColor.BOLD + "will not work!" + ChatColor.RESET;
@@ -59,6 +67,12 @@ public final class Sacaddons extends JavaPlugin {
         saveConfig();
 
         new saclistener(this, this);
+
+        irc = new irc(this, false);
+        botThread = new Thread(irc);
+        botThread.setName("irchook");
+        botThread.start();
+        irc.onFlag();
         getServer().getPluginManager().registerEvents(new playerlistener(), this);
 
         // check if API is disabled - plugin will not work if it's disabled
