@@ -6,3 +6,14 @@ authors: [ Daniel071 ]
 description: Replay hook for the SoaromaSAC anticheat
 website: pavela.net
 depend : [AdvancedReplay , SoaromaSAC]
+
+commands:
+  irc:
+    description: Run commands to the IRC bot
+    usage: /irc <command>
+    permission: sacaddons.irc
+
+permissions:
+  sacaddons.irc:
+    description: Run commands to the IRC bot
+    default: op

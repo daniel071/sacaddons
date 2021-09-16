@@ -22,6 +22,8 @@ import java.io.File;
 
 
 public final class Sacaddons extends JavaPlugin {
+    private Sacaddons instance = this;
+
     FileConfiguration config = this.getConfig();
     public irc irc;
     public Thread botThread;
@@ -36,6 +38,9 @@ public final class Sacaddons extends JavaPlugin {
     boolean apiEnabled = true;
     boolean updateRequired = false;
 
+    public Sacaddons getInstance() {
+        return instance;
+    }
 
     @Override
     public void onEnable() {
@@ -67,7 +72,7 @@ public final class Sacaddons extends JavaPlugin {
         config.addDefault("irc.username", "USERNAME_HERE");
         config.addDefault("irc.server", "irc.libera.chat");
         config.addDefault("irc.channel", "#SoaromaSAC");
-        config.addDefault("irc.initialmsgdelay", 50);
+        config.addDefault("irc.initialmsgdelay", 100);
         config.addDefault("irc.maxmsgdelay", 1000);
         config.addDefault("irc.nickserv.enabled", false);
         config.addDefault("irc.nickserv.password", "PASSWORD_HERE");
@@ -82,7 +87,7 @@ public final class Sacaddons extends JavaPlugin {
             botThread = new Thread(irc);
             botThread.setName("irchook");
             botThread.start();
-            this.getCommand("irc").setExecutor(new CommandIRC());
+            this.getCommand("irc").setExecutor(new CommandIRC(this));
         }
 
         getServer().getPluginManager().registerEvents(new playerlistener(), this);

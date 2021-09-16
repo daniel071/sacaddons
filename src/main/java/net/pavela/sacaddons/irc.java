@@ -2,6 +2,7 @@ package net.pavela.sacaddons;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.pircbotx.delay.AdaptingDelay;
@@ -53,8 +54,7 @@ public class irc extends ListenerAdapter implements Runnable {
     public void onDisconnect(DisconnectEvent event) throws IOException {
         Bukkit.getConsoleSender().sendMessage(ChatColor.BOLD + "" + ChatColor.YELLOW + "[IRC] Got disconnected, retrying...");
         try {
-            // bot.close();
-            // bot.startBot();
+            bot.startBot();
         } catch(Exception e) {
             Bukkit.getConsoleSender().sendMessage(ChatColor.BOLD + "" + ChatColor.YELLOW + "[IRC] IRC Exception ", String.valueOf(e));
         }
@@ -87,14 +87,16 @@ public class irc extends ListenerAdapter implements Runnable {
     // @Override
     public void onFlag(String ImpostorName) {
         String msg = String.format("\u0002\u000304[!] MrRubberStruck\u000F\u000304 is sus", ImpostorName);
-        Bukkit.getConsoleSender().sendMessage(ChatColor.BOLD + "" + ChatColor.RED + "Cannot login rn?");
         bot.sendIRC().message(config.getString("irc.channel"), msg);
     }
 
     public void onReport(String ImpostorName) {
         String msg = String.format("\u0002\u000308[!] %s \u000Fwas reported", ImpostorName);
-        Bukkit.getConsoleSender().sendMessage(ChatColor.BOLD + "" + ChatColor.RED + "Cannot login rn?");
         bot.sendIRC().message(config.getString("irc.channel"), msg);
+    }
+
+    public void runCommand(String command) {
+        bot.sendRaw().rawLine(command);
     }
 
     public static void main(Boolean startBot) throws Exception {
