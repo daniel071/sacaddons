@@ -72,8 +72,7 @@ public final class Sacaddons extends JavaPlugin {
         config.addDefault("irc.username", "USERNAME_HERE");
         config.addDefault("irc.server", "irc.libera.chat");
         config.addDefault("irc.channel", "#SoaromaSAC");
-        config.addDefault("irc.initialmsgdelay", 100);
-        config.addDefault("irc.maxmsgdelay", 1000);
+        config.addDefault("irc.msgdelay", 400);
         config.addDefault("irc.nickserv.enabled", false);
         config.addDefault("irc.nickserv.password", "PASSWORD_HERE");
 

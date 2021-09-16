@@ -2,13 +2,9 @@ package net.pavela.sacaddons;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
-import org.pircbotx.delay.AdaptingDelay;
-import org.pircbotx.delay.Delay;
 import org.pircbotx.delay.StaticDelay;
-import org.pircbotx.exception.IrcException;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.ConnectEvent;
 import org.pircbotx.hooks.events.DisconnectEvent;
@@ -20,7 +16,7 @@ public class irc extends ListenerAdapter implements Runnable {
     private Sacaddons instance;
     public static String sacaddonsversion = "0.0.0";
     public static String sacversion = "0.0.0";
-    public static AdaptingDelay currentDelay;
+    public static StaticDelay currentDelay;
     public static PircBotX bot;
     public static org.bukkit.configuration.Configuration config;
 
@@ -65,6 +61,7 @@ public class irc extends ListenerAdapter implements Runnable {
         if (config.getBoolean("irc.nickserv.enabled")) {
             bot.sendIRC().identify(config.getString("irc.nickserv.password"));
         }
+        bot.sendIRC().joinChannel(config.getString("irc.channel"));
     }
 
     @Override
@@ -102,7 +99,7 @@ public class irc extends ListenerAdapter implements Runnable {
     public static void main(Boolean startBot) throws Exception {
         //Configure what we want our bot to do
         if (startBot) {
-            currentDelay = new AdaptingDelay(Long.parseLong(config.getString("irc.initialmsgdelay")), Long.parseLong(config.getString("irc.maxmsgdelay")));
+            currentDelay = new StaticDelay(Long.parseLong(config.getString("irc.msgdelay")));
 
             Configuration configuration = new Configuration.Builder()
                     .setName(config.getString("irc.username")) // Set the nick of the bot.
