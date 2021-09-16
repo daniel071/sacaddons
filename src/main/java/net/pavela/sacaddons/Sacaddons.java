@@ -67,6 +67,8 @@ public final class Sacaddons extends JavaPlugin {
         config.addDefault("irc.username", "USERNAME_HERE");
         config.addDefault("irc.server", "irc.libera.chat");
         config.addDefault("irc.channel", "#SoaromaSAC");
+        config.addDefault("irc.initialmsgdelay", 50);
+        config.addDefault("irc.maxmsgdelay", 1000);
         config.addDefault("irc.nickserv.enabled", false);
         config.addDefault("irc.nickserv.password", "PASSWORD_HERE");
 
@@ -80,8 +82,10 @@ public final class Sacaddons extends JavaPlugin {
             botThread = new Thread(irc);
             botThread.setName("irchook");
             botThread.start();
-            getServer().getPluginManager().registerEvents(new playerlistener(), this);
+            this.getCommand("irc").setExecutor(new CommandIRC());
         }
+
+        getServer().getPluginManager().registerEvents(new playerlistener(), this);
 
         // check if API is disabled - plugin will not work if it's disabled
         if (!sacConfig.getBoolean("other.enableAPI")) {
