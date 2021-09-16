@@ -87,6 +87,8 @@ public final class Sacaddons extends JavaPlugin {
         if (!config.getBoolean("irc.verbose")) {
             Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "::" + ChatColor.WHITE + " Verbose disabled, hiding IRC logs");
             ((Logger) LogManager.getRootLogger()).addFilter(new LogFilter());
+        } else {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "::" + ChatColor.WHITE + " Verbose enabled, set irc.verbose in sacaddons config to disable.");
         }
         if (config.getBoolean("irc.enabled")) {
             irc = new irc(this, false);
