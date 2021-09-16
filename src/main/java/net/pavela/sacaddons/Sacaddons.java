@@ -4,6 +4,8 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -72,7 +74,8 @@ public final class Sacaddons extends JavaPlugin {
         config.addDefault("irc.username", "USERNAME_HERE");
         config.addDefault("irc.server", "irc.libera.chat");
         config.addDefault("irc.channel", "#SoaromaSAC");
-        config.addDefault("irc.msgdelay", 400);
+        config.addDefault("irc.msgdelay", 500);
+        config.addDefault("irc.verbose", true);
         config.addDefault("irc.nickserv.enabled", false);
         config.addDefault("irc.nickserv.password", "PASSWORD_HERE");
 
@@ -81,6 +84,10 @@ public final class Sacaddons extends JavaPlugin {
 
         new saclistener(this, this);
 
+        if (!config.getBoolean("irc.verbose")) {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "::" + ChatColor.WHITE + " Verbose disabled, hiding IRC logs");
+            ((Logger) LogManager.getRootLogger()).addFilter(new LogFilter());
+        }
         if (config.getBoolean("irc.enabled")) {
             irc = new irc(this, false);
             botThread = new Thread(irc);
@@ -88,6 +95,7 @@ public final class Sacaddons extends JavaPlugin {
             botThread.start();
             this.getCommand("irc").setExecutor(new CommandIRC(this));
         }
+
 
         getServer().getPluginManager().registerEvents(new playerlistener(), this);
 
@@ -104,7 +112,7 @@ public final class Sacaddons extends JavaPlugin {
             if (!this.getDescription().getVersion().equalsIgnoreCase(version)) {
                 updateRequired = true;
                 updateMsg = new TextComponent(ChatColor.GREEN + "" + ChatColor.BOLD + "[!] " + ChatColor.RESET + ChatColor.GREEN + "New sacaddons update available" + ChatColor.GRAY + " (click for link)");
-                String cliMsg = ChatColor.GREEN + "" + ChatColor.BOLD + "[!] " + ChatColor.RESET + ChatColor.GREEN + "New sacaddons update available";
+                String cliMsg = ChatColor.GREEN + "" + ChatColor.BOLD + "[!]" + ChatColor.RESET + ChatColor.GREEN + " New sacaddons update available";
                 updateMsg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("https://www.spigotmc.org/resources/sacaddons.95930/")));
                 updateMsg.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/sacaddons.95930/"));
                 Bukkit.getConsoleSender().sendMessage(cliMsg);
@@ -119,7 +127,14 @@ public final class Sacaddons extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+//        Runnable myrunnable = new Runnable() {
+//            public void run() {
+//                irc.shutdown();
+//            }
+//        };
+//
+//        new Thread(myrunnable).start();
+        irc.shutdown();
     }
 
     public class playerlistener implements Listener {

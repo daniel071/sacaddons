@@ -13,7 +13,8 @@ irc:
   username: "USERNAME_HERE"
   server: "irc.libera.chat"
   channel: "#SoaromaSAC"
-  msgdelay: 400
+  msgdelay: 500
+  verbose: true
   nickserv:
     enabled : false
     password: "PASSWORD_HERE"

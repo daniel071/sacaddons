@@ -19,7 +19,7 @@ public class CommandIRC implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length != 0) {
             String commandName = join(args, ' ');
-            Bukkit.getConsoleSender().sendMessage(commandName);
+            // Bukkit.getConsoleSender().sendMessage(commandName);
 
             Runnable myrunnable = new Runnable() {
                 public void run() {

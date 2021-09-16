@@ -47,13 +47,13 @@ public class irc extends ListenerAdapter implements Runnable {
     }
 
     @Override
-    public void onDisconnect(DisconnectEvent event) throws IOException {
+    public void onDisconnect(DisconnectEvent event) {
         Bukkit.getConsoleSender().sendMessage(ChatColor.BOLD + "" + ChatColor.YELLOW + "[IRC] Got disconnected, retrying...");
-        try {
-            bot.startBot();
-        } catch(Exception e) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.BOLD + "" + ChatColor.YELLOW + "[IRC] IRC Exception ", String.valueOf(e));
-        }
+//        try {
+//            bot.startBot();
+//        } catch(Exception e) {
+//            Bukkit.getConsoleSender().sendMessage(ChatColor.BOLD + "" + ChatColor.YELLOW + "[IRC] IRC Exception ", String.valueOf(e));
+//        }
     }
 
     @Override
@@ -81,7 +81,6 @@ public class irc extends ListenerAdapter implements Runnable {
         }
     }
 
-    // @Override
     public void onFlag(String ImpostorName) {
         String msg = String.format("\u0002\u000304[!] MrRubberStruck\u000F\u000304 is sus", ImpostorName);
         bot.sendIRC().message(config.getString("irc.channel"), msg);
@@ -96,6 +95,10 @@ public class irc extends ListenerAdapter implements Runnable {
         bot.sendRaw().rawLine(command);
     }
 
+    public void shutdown() {
+        bot.stopBotReconnect();
+    }
+
     public static void main(Boolean startBot) throws Exception {
         //Configure what we want our bot to do
         if (startBot) {
@@ -107,6 +110,7 @@ public class irc extends ListenerAdapter implements Runnable {
                     .addAutoJoinChannel(config.getString("irc.channel")) // Join the test channel.
                     .setMessageDelay(currentDelay) // half a second delay
                     .addListener(new irc()) // Add our listener that will be called on Events
+                    .setAutoReconnect(true)
                     .buildConfiguration();
 
             //Create our bot with the configuration
