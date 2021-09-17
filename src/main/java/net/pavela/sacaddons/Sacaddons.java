@@ -84,13 +84,14 @@ public final class Sacaddons extends JavaPlugin {
 
         new saclistener(this, this);
 
-        if (!config.getBoolean("irc.verbose")) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "::" + ChatColor.WHITE + " Verbose disabled, hiding IRC logs");
-            ((Logger) LogManager.getRootLogger()).addFilter(new LogFilter());
-        } else {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "::" + ChatColor.WHITE + " Verbose enabled, set irc.verbose in sacaddons config to disable.");
-        }
         if (config.getBoolean("irc.enabled")) {
+            if (!config.getBoolean("irc.verbose")) {
+                Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "::" + ChatColor.WHITE + " Verbose disabled, hiding IRC logs");
+                ((Logger) LogManager.getRootLogger()).addFilter(new LogFilter());
+            } else {
+                Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "::" + ChatColor.WHITE + " Verbose enabled, set irc.verbose in sacaddons config to disable.");
+            }
+
             irc = new irc(this, false);
             botThread = new Thread(irc);
             botThread.setName("irchook");
@@ -129,14 +130,9 @@ public final class Sacaddons extends JavaPlugin {
 
     @Override
     public void onDisable() {
-//        Runnable myrunnable = new Runnable() {
-//            public void run() {
-//                irc.shutdown();
-//            }
-//        };
-//
-//        new Thread(myrunnable).start();
-        irc.shutdown();
+        if (config.getBoolean("irc.enabled")) {
+            irc.shutdown();
+        }
     }
 
     public class playerlistener implements Listener {

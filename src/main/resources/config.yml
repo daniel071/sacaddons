@@ -18,3 +18,4 @@ irc:
   nickserv:
     enabled : false
     password: "PASSWORD_HERE"
+    
