@@ -122,10 +122,14 @@ public final class Sacaddons extends JavaPlugin {
             if(p.isOp()) {
                 if (!apiEnabled) {
                     // referencing the variables did not work for some reason.. so I had to do this
+                    String msg1 = ChatColor.translateAlternateColorCodes('§', config.getString("msg.enableapiDisabledText1"));
+                    String msg2 = ChatColor.translateAlternateColorCodes('§', config.getString("msg.enableapiDisabledText2"));
+                    String msg3 = ChatColor.translateAlternateColorCodes('§', config.getString("msg.enableapiDisabledText3"));
+
                     p.sendMessage("");
-                    p.sendMessage("[!] " + ChatColor.YELLOW + "enableAPI for SoaromaSAC is disabled!");
-                    p.sendMessage("[!] " + ChatColor.YELLOW + "sacaddons " + ChatColor.BOLD + "will not work!" + ChatColor.RESET);
-                    p.sendMessage(ChatColor.GRAY + "(edit main.yml for SoaromaSAC and change enableAPI to " + ChatColor.ITALIC + "true" + ChatColor.RESET + ChatColor.GRAY + ")");
+                    p.sendMessage(msg1);
+                    p.sendMessage(msg2);
+                    p.sendMessage(msg3);
                     p.sendMessage("");
                 }
                 if (updateRequired) {

@@ -57,8 +57,8 @@ irc:
 # Place ${player} where you want the player name to be
 # Place ${replay} where you want name of replay to be
 msg:
-  flagtext: "§e[!]§c§l${player}§r§c  may be cheating §7 (click to teleport)"
-  reporttext: "§e[!] §l${player} §r§e was reported §7(click to teleport)"
+  flagtext: "§e[!] §c§l${player}§r§c may be cheating §7(click to teleport)"
+  reporttext: "§e[!] §l${player}§r§e was reported §7(click to teleport)"
   reportnotavailabletext: "§e[!] §rReported username is not currently online"
   replaysavedtext: "§b:: §rReplay §o${replay}§r saved §7(click to watch)"
   reportreplaysavedtext: "§e[!] Replay will be saved as §r§o${replay}"
