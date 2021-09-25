@@ -53,9 +53,12 @@
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <!-- Replace this with your package! -->
                             <shadedPattern>net.pavela.sacaddons</shadedPattern>
                         </relocation>
+<!--                        <relocation>-->
+<!--                            <pattern>de.leonhard.storage</pattern>-->
+<!--                            <shadedPattern>net.pavela.sacaddons</shadedPattern>-->
+<!--                        </relocation>-->
                     </relocations>
                 </configuration>
                 <executions>
@@ -133,5 +136,11 @@
             <artifactId>log4j-core</artifactId>
             <version>2.14.1</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.github.simplix-softworks</groupId>-->
+<!--            <artifactId>SimplixStorage</artifactId>-->
+<!--            <version>3.2.3</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
     </dependencies>
 </project>

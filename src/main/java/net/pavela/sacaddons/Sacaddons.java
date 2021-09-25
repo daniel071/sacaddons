@@ -58,29 +58,8 @@ public final class Sacaddons extends JavaPlugin {
         File sacConfigFile = new File("plugins/SoaromaSAC/main.yml");
         FileConfiguration sacConfig = YamlConfiguration.loadConfiguration(sacConfigFile);
 
-        saveDefaultConfig();
-        config.addDefault("flagmsg", true);
-        config.addDefault("replayhook", true);
-        config.addDefault("reportmsg", true);
-        config.addDefault("reportreplayhook", true);
-        config.addDefault("replaylength", 60);
-        config.addDefault("bstats", true);
-        config.addDefault("flagsound.enabled", true);
-        config.addDefault("flagsound.sound", "BLOCK_NOTE_BLOCK_PLING");
-        config.addDefault("flagsound.volume", 1);
-        config.addDefault("flagsound.pitch", 1);
-
-        config.addDefault("irc.enabled", false);
-        config.addDefault("irc.username", "USERNAME_HERE");
-        config.addDefault("irc.server", "irc.libera.chat");
-        config.addDefault("irc.channel", "#SoaromaSAC");
-        config.addDefault("irc.msgdelay", 500);
-        config.addDefault("irc.verbose", true);
-        config.addDefault("irc.nickserv.enabled", false);
-        config.addDefault("irc.nickserv.password", "PASSWORD_HERE");
-
         config.options().copyDefaults(true);
-        saveConfig();
+        saveDefaultConfig();
 
         new saclistener(this, this);
 

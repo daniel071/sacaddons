@@ -55,8 +55,14 @@ public class saclistener implements Listener {
             for (Player all : Bukkit.getServer().getOnlinePlayers()) {
                 if (all.isOp()) {
                     TextComponent msg = new TextComponent(ChatColor.YELLOW + "[!] " + ChatColor.RED + ChatColor.BOLD + Impostor + ChatColor.RESET + ChatColor.RED + " may be the Impostor" + ChatColor.GRAY + " (click to teleport)");
-                    msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(String.format("%.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ()))));
-                    msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp @p %.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ())));
+                    if (config.getBoolean("tptocoords")) {
+                        msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(String.format("%.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ()))));
+                        msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp @p %.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ())));
+                    } else {
+                        msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(String.format("%s", Impostor))));
+                        msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp @p %s", Impostor)));
+                    }
+
                     all.spigot().sendMessage(msg);
 
                     if (config.getBoolean("flagsound.enabled")) {
@@ -150,11 +156,15 @@ public class saclistener implements Listener {
                     for (Player all : Bukkit.getServer().getOnlinePlayers()) {
                         if (all.isOp()) {
                             TextComponent msg = new TextComponent(ChatColor.YELLOW + "[!] " + ChatColor.YELLOW + ChatColor.BOLD + Impostor.getDisplayName() + ChatColor.RESET + ChatColor.YELLOW + " was reported " + ChatColor.GRAY + " (click to teleport)");
-                            msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(String.format("%.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ()))));
-                            msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp @p %.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ())));
+                            if (config.getBoolean("tptocoords")) {
+                                msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(String.format("%.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ()))));
+                                msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp @p %.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ())));
+                            } else {
+                                msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(String.format("%s", ImpostorName))));
+                                msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp @p %s", ImpostorName)));
+                            }
                             all.spigot().sendMessage(msg);
 
-                            // TODO: Show this message after report is saved and make message clickable to play report
                             if (config.getBoolean("reportreplayhook")) {
                                 TextComponent msg2 = new TextComponent(ChatColor.YELLOW + "[!] " + ChatColor.YELLOW + "Replay will be saved as " + ChatColor.ITALIC + replayName);
                                 all.spigot().sendMessage(msg2);

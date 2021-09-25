@@ -3,7 +3,7 @@ version: ${project.version}
 main: net.pavela.sacaddons.Sacaddons
 api-version: 1.17
 authors: [ Daniel071 ]
-description: Replay hook for the SoaromaSAC anticheat
+description: a plugin that improves the SoaromaSAC experience
 website: pavela.net
 depend : [AdvancedReplay , SoaromaSAC]
 

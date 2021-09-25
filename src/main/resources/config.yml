@@ -1,13 +1,44 @@
+#    Welcome to
+#     ___  __ _  ___ __ _  __| | __| | ___  _ __  ___
+#    / __|/ _` |/ __/ _` |/ _` |/ _` |/ _ \| '_ \/ __|
+#    \__ \ (_| | (_| (_| | (_| | (_| | (_) | | | \__ \
+#    |___/\__,_|\___\__,_|\__,_|\__,_|\___/|_| |_|___/
+#    Source code https://github.com/daniel071/sacaddons
+#    Get help    https://discord.gg/GK3rmrze2Q
+
+# Show message on flags
 flagmsg: true
+# Save replay on flags
 replayhook: true
+# Show message on report
+reportmsg: true
+# Save replay on report
+reportreplayhook: true
+# How long each replay will last. Should not exceed the replay length in AdvancedReplay. 60 seconds is a good default.
+replaylength: 60
+
+# Click to teleport feature:
+# False: Teleport admin to player who got flagged
+# True: Teleport admin to location of flag
+# Keep this false if using Essentials
+tptocoords: false
+
+# Enable logging of basic information
+# https://bstats.org/plugin/bukkit/sacaddons/12689
 bstats: true
 
+# Play audible sound to admins on each flag
+# Lists of sounds here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
 flagsound:
   enabled: true
   sound: "BLOCK_NOTE_BLOCK_PLING"
   volume: 1
   pitch: 1
 
+# IRC is a versatile messaging protocol, like discord.
+# Recommended server to use: https://libera.chat/
+# Recommended client: https://hexchat.github.io/ (PC) https://github.com/MCMrARM/revolution-irc (Android)
+# Useful resources: https://gist.github.com/xero/2d6e4b061b4ecbeb9f99 , https://znc.in/
 irc:
   enabled: false
   username: "USERNAME_HERE"
