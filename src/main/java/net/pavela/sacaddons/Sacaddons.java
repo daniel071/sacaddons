@@ -51,13 +51,14 @@ public final class Sacaddons extends JavaPlugin {
         sacaddonsversion = this.getDescription().getVersion();
         sacversion = Bukkit.getServer().getPluginManager().getPlugin("SoaromaSAC").getDescription().getVersion();
 
-        String msg1 = "[!] " + ChatColor.YELLOW + "enableAPI for SoaromaSAC is disabled!";
-        String msg2 = "[!] " + ChatColor.YELLOW + "sacaddons " + ChatColor.BOLD + "will not work!" + ChatColor.RESET;
-        String msg3 = ChatColor.GRAY + "(edit main.yml for SoaromaSAC and change enableAPI to " + ChatColor.ITALIC + "true" + ChatColor.RESET + ChatColor.GRAY + ")";
+        String msg1 = ChatColor.translateAlternateColorCodes('§', config.getString("msg.enableapiDisabledText1"));
+        String msg2 = ChatColor.translateAlternateColorCodes('§', config.getString("msg.enableapiDisabledText2"));
+        String msg3 = ChatColor.translateAlternateColorCodes('§', config.getString("msg.enableapiDisabledText3"));
 
         File sacConfigFile = new File("plugins/SoaromaSAC/main.yml");
         FileConfiguration sacConfig = YamlConfiguration.loadConfiguration(sacConfigFile);
 
+        // TODO: make config file better because yaml is special
         config.options().copyDefaults(true);
         saveDefaultConfig();
 
@@ -93,7 +94,7 @@ public final class Sacaddons extends JavaPlugin {
         new UpdateChecker(this, 95930).getVersion(version -> {
             if (!this.getDescription().getVersion().equalsIgnoreCase(version)) {
                 updateRequired = true;
-                updateMsg = new TextComponent(ChatColor.GREEN + "" + ChatColor.BOLD + "[!] " + ChatColor.RESET + ChatColor.GREEN + "New sacaddons update available" + ChatColor.GRAY + " (click for link)");
+                updateMsg = new TextComponent( ChatColor.translateAlternateColorCodes('§', config.getString("msg.updatetext")));
                 String cliMsg = ChatColor.GREEN + "" + ChatColor.BOLD + "[!]" + ChatColor.RESET + ChatColor.GREEN + " New sacaddons update available";
                 updateMsg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("https://www.spigotmc.org/resources/sacaddons.95930/")));
                 updateMsg.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/sacaddons.95930/"));

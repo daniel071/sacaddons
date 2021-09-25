@@ -14,7 +14,8 @@ replayhook: true
 reportmsg: true
 # Save replay on report
 reportreplayhook: true
-# How long each replay will last. Should not exceed the replay length in AdvancedReplay. 60 seconds is a good default.
+# How long each replay will last. Should not exceed the replay length in AdvancedReplay.
+# 60 seconds is a good default.
 replaylength: 60
 
 # Click to teleport feature:
@@ -47,6 +48,21 @@ irc:
   msgdelay: 500
   verbose: true
   nickserv:
-    enabled : false
+    enabled: false
     password: "PASSWORD_HERE"
-    
+    epicTest: "REMOVE THIS BEFORE COMMITTING"
+
+# Specify custom text for in-game messages.
+# You can use colour codes from https://htmlcolorcodes.com/minecraft-color-codes/
+# Place ${player} where you want the player name to be
+# Place ${replay} where you want name of replay to be
+msg:
+  flagtext: "§e[!]§c§l${player}§r§c  may be cheating §7 (click to teleport)"
+  reporttext: "§e[!] §l${player} §r§e was reported §7(click to teleport)"
+  reportnotavailabletext: "§e[!] §rReported username is not currently online"
+  replaysavedtext: "§b:: §rReplay §o${replay}§r saved §7(click to watch)"
+  reportreplaysavedtext: "§e[!] Replay will be saved as §r§o${replay}"
+  enableapiDisabledText1: "[!] §eenableAPI for SoaromaSAC is disabled!"
+  enableapiDisabledText2: "[!] §esacaddons §lwill not work!§r"
+  enableapiDisabledText3: "§7(edit main.yml for SoaromaSAC and change enableAPI to §otrue §r§7)"
+  updatetext: "§a§l[!] §r§aNew sacaddons update available §7(click for link)"

@@ -82,7 +82,7 @@ public class irc extends ListenerAdapter implements Runnable {
     }
 
     public void onFlag(String ImpostorName) {
-        String msg = String.format("\u0002\u000304[!] MrRubberStruck\u000F\u000304 is sus", ImpostorName);
+        String msg = String.format("\u0002\u000304[!] MrRubberStruck\u000F\u000304 was flagged", ImpostorName);
         bot.sendIRC().message(config.getString("irc.channel"), msg);
     }
 

@@ -5,6 +5,8 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import org.apache.commons.lang3.text.StrSubstitutor;
+import org.apache.logging.log4j.message.MapMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -22,6 +24,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class saclistener implements Listener {
     private Sacaddons instance;
@@ -54,7 +58,12 @@ public class saclistener implements Listener {
         if (config.getBoolean("flagmsg")) {
             for (Player all : Bukkit.getServer().getOnlinePlayers()) {
                 if (all.isOp()) {
-                    TextComponent msg = new TextComponent(ChatColor.YELLOW + "[!] " + ChatColor.RED + ChatColor.BOLD + Impostor + ChatColor.RESET + ChatColor.RED + " may be the Impostor" + ChatColor.GRAY + " (click to teleport)");
+                    String flagmsgunformatted = config.getString("msg.flagtext");
+                    Map map = new HashMap();
+                    map.put("player", Impostor);
+                    StrSubstitutor sub = new StrSubstitutor(map);
+                    TextComponent msg = new TextComponent(ChatColor.translateAlternateColorCodes('§', sub.replace(flagmsgunformatted)));
+
                     if (config.getBoolean("tptocoords")) {
                         msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(String.format("%.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ()))));
                         msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp @p %.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ())));
@@ -95,7 +104,12 @@ public class saclistener implements Listener {
 
                         if (config.getBoolean("flagmsg")) {
 
-                            TextComponent msg = new TextComponent(ChatColor.AQUA + "" + ChatColor.BOLD + ":: " + ChatColor.RESET + "Replay " + ChatColor.ITALIC + replayName + ChatColor.RESET + " saved " + ChatColor.GRAY + "(click to watch)");
+                            //TextComponent msg = new TextComponent(ChatColor.AQUA + "" + ChatColor.BOLD + ":: " + ChatColor.RESET + "Replay " + ChatColor.ITALIC + replayName + ChatColor.RESET + " saved " + ChatColor.GRAY + "(click to watch)");
+                            String msgunformatted = config.getString("msg.replaysavedtext");
+                            Map map = new HashMap();
+                            map.put("replay", replayName);
+                            StrSubstitutor sub2 = new StrSubstitutor(map);
+                            TextComponent msg = new TextComponent(ChatColor.translateAlternateColorCodes('§', sub2.replace(msgunformatted)));
                             String replayCommand = String.format("/replay play %s", replayName);
 
                             for (Player all : Bukkit.getServer().getOnlinePlayers()) {
@@ -155,7 +169,12 @@ public class saclistener implements Listener {
                 if (config.getBoolean("reportmsg")) {
                     for (Player all : Bukkit.getServer().getOnlinePlayers()) {
                         if (all.isOp()) {
-                            TextComponent msg = new TextComponent(ChatColor.YELLOW + "[!] " + ChatColor.YELLOW + ChatColor.BOLD + Impostor.getDisplayName() + ChatColor.RESET + ChatColor.YELLOW + " was reported " + ChatColor.GRAY + " (click to teleport)");
+                            String reportmsgunformatted = config.getString("msg.reporttext");
+                            Map reportmap = new HashMap();
+                            reportmap.put("player", ImpostorName);
+                            StrSubstitutor sub2 = new StrSubstitutor(reportmap);
+                            TextComponent msg = new TextComponent(ChatColor.translateAlternateColorCodes('§', sub2.replace(reportmsgunformatted)));
+
                             if (config.getBoolean("tptocoords")) {
                                 msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(String.format("%.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ()))));
                                 msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp @p %.0f %.0f %.0f", ImpostorLocation.getX(), ImpostorLocation.getY(), ImpostorLocation.getZ())));
@@ -166,7 +185,11 @@ public class saclistener implements Listener {
                             all.spigot().sendMessage(msg);
 
                             if (config.getBoolean("reportreplayhook")) {
-                                TextComponent msg2 = new TextComponent(ChatColor.YELLOW + "[!] " + ChatColor.YELLOW + "Replay will be saved as " + ChatColor.ITALIC + replayName);
+                                String reportmsg2unformatted = config.getString("msg.reportreplaysavedtext");
+                                Map reportmap2 = new HashMap();
+                                reportmap2.put("replay", replayName);
+                                StrSubstitutor sub3 = new StrSubstitutor(reportmap2);
+                                TextComponent msg2 = new TextComponent(ChatColor.translateAlternateColorCodes('§', sub3.replace(reportmsg2unformatted)));
                                 all.spigot().sendMessage(msg2);
                             }
 
@@ -179,7 +202,7 @@ public class saclistener implements Listener {
             } else {
                 for (Player all : Bukkit.getServer().getOnlinePlayers()) {
                     if (all.isOp()) {
-                        TextComponent msg = new TextComponent(ChatColor.YELLOW + "[!] " + ChatColor.RESET + "Reported username is not currently online");
+                        TextComponent msg = new TextComponent(ChatColor.translateAlternateColorCodes('§', config.getString("msg.reportnotavailabletext")));
                         all.spigot().sendMessage(msg);
                     }
                 }
