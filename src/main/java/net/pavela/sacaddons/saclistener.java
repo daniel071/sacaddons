@@ -42,7 +42,7 @@ public class saclistener implements Listener {
     @EventHandler
     public void onFlag(SoaromaFlagEvent event){
         Player p = event.getFlaggedPlayer();
-        String Impostor = p.getDisplayName();
+        String Impostor = p.getName();
         Location ImpostorLocation = p.getLocation();
 
         if (config.getBoolean("irc.enabled")) {
@@ -139,7 +139,7 @@ public class saclistener implements Listener {
 
             Player Crewmate = event.getPlayer();
             Location CrewmateLocation = Crewmate.getLocation();
-            String CrewmateName = Crewmate.getDisplayName();
+            String CrewmateName = Crewmate.getName();
 
             String ImpostorName = commandArgs[1];
             Player Impostor = Bukkit.getServer().getPlayer(ImpostorName);
@@ -162,7 +162,7 @@ public class saclistener implements Listener {
                     Date date = new Date();
 
                     String currentDate = dateFormat.format(date);
-                    replayName = String.format("Report-%s%s", Impostor.getDisplayName(), currentDate);
+                    replayName = String.format("Report-%s%s", Impostor.getName(), currentDate);
                     ReplayAPI.getInstance().recordReplay(replayName, Impostor, Impostor);
                 }
 
