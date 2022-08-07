@@ -87,10 +87,18 @@ public class saclistener implements Listener {
 
             // format: day in month , 24h time and minutes
             // e.g. 150800 = 15th of the month at 8 AM
+            String replayHookNaming = config.getString("replayhooknaming");
             DateFormat dateFormat = new SimpleDateFormat("dHHmm");
             Date date = new Date();
             String currentDate = dateFormat.format(date);
-            String replayName = String.format("%s%s", Impostor, currentDate);
+
+            // %player_name%-%timestamp%-%check-that-triggered%"
+            replayHookNaming = replayHookNaming.replace("%player_name%", Impostor);
+            replayHookNaming = replayHookNaming.replace("%timestamp%", currentDate);
+            replayHookNaming = replayHookNaming.replace("%check-that-triggered%", FlagChecked);
+
+
+            String replayName = replayHookNaming;
 
             // Bukkit.getConsoleSender().sendMessage(":: Checking replay");
             if (!currentRecordings.contains(replayName)) {

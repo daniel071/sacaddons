@@ -52,6 +52,19 @@ irc:
     password: "PASSWORD_HERE"
     epicTest: "REMOVE THIS BEFORE COMMITTING"
 
+# How replays saved by the plugin are named
+
+# Default: %player_name%-%timestamp%-%check-that-triggered%
+# e.g. Notch-71023-SemiPrediction
+# User: Notch, Timestamp: 10:23 on the 7th, Check: Semi Prediction
+# Easier to sort by users when searching through replays
+
+# Variation: %timestamp%-%player_name%-%check-that-triggered%
+# e.g. 71023-Notch-SemiPrediction
+# Timestamp: 10:23 on the 7th, User: Notch, Check: Semi Prediction
+# Easier to sort by time occurred when searching through replays
+replayhooknaming: "%player_name%-%timestamp%-%check-that-triggered%"
+
 # Specify custom text for in-game messages.
 # You can use colour codes from https://htmlcolorcodes.com/minecraft-color-codes/
 # Place ${player} where you want the player name to be
