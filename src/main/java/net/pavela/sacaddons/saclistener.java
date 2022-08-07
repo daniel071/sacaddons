@@ -44,6 +44,8 @@ public class saclistener implements Listener {
         Player p = event.getFlaggedPlayer();
         String Impostor = p.getName();
         Location ImpostorLocation = p.getLocation();
+        String FlagChecked = event.getCheckFlagged();
+        FlagChecked = FlagChecked.replaceAll(" ", "");
 
         if (config.getBoolean("irc.enabled")) {
             Runnable myrunnable = new Runnable() {
